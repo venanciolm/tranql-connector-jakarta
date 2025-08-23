@@ -16,11 +16,11 @@
  */
 package org.tranql.connector;
 
-import javax.resource.spi.ConnectionRequestInfo;
-import javax.resource.spi.LocalTransaction;
-import javax.resource.spi.ManagedConnection;
-import javax.resource.spi.ResourceAdapterInternalException;
-import javax.resource.spi.ManagedConnectionFactory;
+import jakarta.resource.spi.ConnectionRequestInfo;
+import jakarta.resource.spi.LocalTransaction;
+import jakarta.resource.spi.ManagedConnection;
+import jakarta.resource.spi.ResourceAdapterInternalException;
+import jakarta.resource.spi.ManagedConnectionFactory;
 import javax.security.auth.Subject;
 
 /**

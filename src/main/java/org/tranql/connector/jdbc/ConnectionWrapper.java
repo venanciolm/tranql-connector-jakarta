@@ -35,9 +35,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * ConnectionWrapper provides a simple wrapper around a physical connection
@@ -57,7 +58,7 @@ import org.apache.commons.logging.LogFactory;
  *
  */
 public class ConnectionWrapper implements Connection {
-	private final static org.apache.commons.logging.Log log = LogFactory.getLog(Log.class);
+	private final static Logger log = LoggerFactory.getLogger(TranqlDataSource.class);
 
     private boolean ISOLATION_CACHING_ENABLED = false;
 
@@ -538,4 +539,31 @@ public class ConnectionWrapper implements Connection {
         }
         return connection.isWrapperFor(aClass);
     }
+    
+    // Adding!!
+
+	@Override
+	public void setSchema(String schema) throws SQLException {
+		connection.setSchema(schema);
+	}
+
+	@Override
+	public String getSchema() throws SQLException {
+		return connection.getSchema();
+	}
+
+	@Override
+	public void abort(Executor executor) throws SQLException {
+		connection.abort(executor);
+	}
+
+	@Override
+	public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+		connection.setNetworkTimeout(executor, milliseconds);
+	}
+
+	@Override
+	public int getNetworkTimeout() throws SQLException {
+		return connection.getNetworkTimeout();
+	}
 }

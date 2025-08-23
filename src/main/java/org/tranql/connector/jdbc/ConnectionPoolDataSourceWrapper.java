@@ -21,7 +21,7 @@
 package org.tranql.connector.jdbc;
 
 import javax.sql.ConnectionPoolDataSource;
-import org.tranql.connector.ExceptionSorter;
+
 import org.tranql.connector.NoExceptionsAreFatalSorter;
 
 /**

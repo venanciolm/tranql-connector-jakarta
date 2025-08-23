@@ -44,10 +44,10 @@ import java.util.Map;
  * @version $Revision: 861 $ $Date: 2012-01-10 16:37:49 -0800 (Tue, 10 Jan 2012) $
  */
 public class ResultSetHandle implements ResultSet {
-    protected final StatementHandle s;
+    protected final StatementHandle<?> s;
     protected final ResultSet rs;
 
-    public ResultSetHandle(StatementHandle s, ResultSet rs) {
+    public ResultSetHandle(StatementHandle<?> s, ResultSet rs) {
         this.s = s;
         this.rs = rs;
     }
@@ -1818,4 +1818,28 @@ public class ResultSetHandle implements ResultSet {
             throw e;
         }
     }
+    
+    // Adding!!
+
+	@Override
+	public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
+        try {
+            return rs.getObject(columnIndex, type);
+        } catch (SQLException e) {
+            connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
+        try {
+            return rs.getObject(columnLabel, type);
+        } catch (SQLException e) {
+            connectionError(e);
+            throw e;
+        }
+	}
+    
+    
 }

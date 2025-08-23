@@ -17,7 +17,7 @@
 
 package org.tranql.connector;
 
-import javax.resource.spi.ConnectionRequestInfo;
+import jakarta.resource.spi.ConnectionRequestInfo;
 
 /**
  *

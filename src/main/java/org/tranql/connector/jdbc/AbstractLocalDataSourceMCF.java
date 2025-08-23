@@ -21,13 +21,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Set;
 
-import javax.resource.NotSupportedException;
-import javax.resource.ResourceException;
-import javax.resource.spi.ConnectionManager;
-import javax.resource.spi.ConnectionRequestInfo;
-import javax.resource.spi.InvalidPropertyException;
-import javax.resource.spi.ManagedConnection;
-import javax.resource.spi.ResourceAdapterInternalException;
+import jakarta.resource.NotSupportedException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.ConnectionManager;
+import jakarta.resource.spi.ConnectionRequestInfo;
+import jakarta.resource.spi.InvalidPropertyException;
+import jakarta.resource.spi.ManagedConnection;
+import jakarta.resource.spi.ResourceAdapterInternalException;
 import javax.security.auth.Subject;
 import javax.sql.DataSource;
 import org.tranql.connector.CredentialExtractor;
@@ -75,10 +75,11 @@ public abstract class AbstractLocalDataSourceMCF<T extends DataSource> implement
         }
     }
 
-    public ManagedConnection matchManagedConnections(Set set, Subject subject, ConnectionRequestInfo connectionRequestInfo) throws ResourceException {
+    public ManagedConnection matchManagedConnections(@SuppressWarnings("rawtypes") Set set, Subject subject, ConnectionRequestInfo connectionRequestInfo) throws ResourceException {
         for (Object o : set) {
             if (o instanceof ManagedConnectionHandle) {
-                ManagedConnectionHandle mc = (ManagedConnectionHandle) o;
+                @SuppressWarnings("unchecked")
+				ManagedConnectionHandle<T,?> mc = (ManagedConnectionHandle<T,?>) o;
                 if (mc.matches(this, subject, connectionRequestInfo)) {
                     return mc;
                 }
@@ -139,7 +140,7 @@ public abstract class AbstractLocalDataSourceMCF<T extends DataSource> implement
             return true;
         }
         if (obj instanceof AbstractLocalDataSourceMCF) {
-            AbstractLocalDataSourceMCF other = (AbstractLocalDataSourceMCF) obj;
+            AbstractLocalDataSourceMCF<?> other = (AbstractLocalDataSourceMCF<?>) obj;
             return this.dataSource.equals(other.dataSource);
         }
         return false;

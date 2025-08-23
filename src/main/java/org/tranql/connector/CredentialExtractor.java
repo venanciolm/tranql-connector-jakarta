@@ -20,76 +20,93 @@ package org.tranql.connector;
 import java.util.Arrays;
 import java.util.Set;
 
-import javax.resource.spi.ConnectionRequestInfo;
-import javax.resource.spi.ResourceAdapterInternalException;
-import javax.resource.spi.security.PasswordCredential;
 import javax.security.auth.Subject;
 
+import jakarta.resource.spi.ConnectionRequestInfo;
+import jakarta.resource.spi.ResourceAdapterInternalException;
+import jakarta.resource.spi.security.PasswordCredential;
+
 /**
- * @version $Revision: 801 $ $Date: 2010-11-02 17:01:34 -0700 (Tue, 02 Nov 2010) $
+ * @version $Revision: 801 $ $Date: 2010-11-02 17:01:34 -0700 (Tue, 02 Nov 2010)
+ *          $
  */
 public class CredentialExtractor {
 
-    private final String userName;
-    private final String password;
+	private final String userName;
+	private final String password;
 
-    public CredentialExtractor(Subject subject, ConnectionRequestInfo connectionRequestInfo, UserPasswordManagedConnectionFactory managedConnectionFactory) throws ResourceAdapterInternalException {
-        assert managedConnectionFactory != null;
+	public CredentialExtractor(Subject subject, ConnectionRequestInfo connectionRequestInfo,
+			UserPasswordManagedConnectionFactory managedConnectionFactory) throws ResourceAdapterInternalException {
+		assert managedConnectionFactory != null;
 
-        if (connectionRequestInfo != null && !(connectionRequestInfo instanceof UserPasswordHandleFactoryRequestInfo)) {
-            throw new ResourceAdapterInternalException("ConnectionRequestInfo must be a UserPasswordHandleFactoryRequestInfo, not a " + connectionRequestInfo.getClass().getName());
-        }
-        if (subject != null) {
-            Set<PasswordCredential> credentials = subject.getPrivateCredentials(PasswordCredential.class);
-            for (PasswordCredential passwordCredential : credentials) {
-                if (managedConnectionFactory.equals(passwordCredential.getManagedConnectionFactory())) {
-                    userName = passwordCredential.getUserName();
-                    password = new String(passwordCredential.getPassword());
-                    return;
-                }
-            }
-            throw new ResourceAdapterInternalException("No credential found for this ManagedConnectionFactory: " + managedConnectionFactory);
-        }
-        if (connectionRequestInfo != null
-                && ((UserPasswordHandleFactoryRequestInfo) connectionRequestInfo).getUser() != null) {
-            userName = ((UserPasswordHandleFactoryRequestInfo) connectionRequestInfo).getUser();
-            password = ((UserPasswordHandleFactoryRequestInfo) connectionRequestInfo).getPassword();
-            return;
-        }
-        userName = managedConnectionFactory.getUserName();
-        password = managedConnectionFactory.getPassword();
-    }
+		if (connectionRequestInfo != null && !(connectionRequestInfo instanceof UserPasswordHandleFactoryRequestInfo)) {
+			throw new ResourceAdapterInternalException(
+					"ConnectionRequestInfo must be a UserPasswordHandleFactoryRequestInfo, not a "
+							+ connectionRequestInfo.getClass().getName());
+		}
+		if (subject != null) {
+			Set<PasswordCredential> credentials = subject.getPrivateCredentials(PasswordCredential.class);
+			for (PasswordCredential passwordCredential : credentials) {
+				if (managedConnectionFactory.equals(passwordCredential.getManagedConnectionFactory())) {
+					userName = passwordCredential.getUserName();
+					password = new String(passwordCredential.getPassword());
+					return;
+				}
+			}
+			throw new ResourceAdapterInternalException(
+					"No credential found for this ManagedConnectionFactory: " + managedConnectionFactory);
+		}
+		if (connectionRequestInfo != null
+				&& ((UserPasswordHandleFactoryRequestInfo<?, ?>) connectionRequestInfo).getUser() != null) {
+			userName = ((UserPasswordHandleFactoryRequestInfo<?, ?>) connectionRequestInfo).getUser();
+			password = ((UserPasswordHandleFactoryRequestInfo<?, ?>) connectionRequestInfo).getPassword();
+			return;
+		}
+		userName = managedConnectionFactory.getUserName();
+		password = managedConnectionFactory.getPassword();
+	}
 
-    public boolean matches(Subject subject, ConnectionRequestInfo connectionRequestInfo, UserPasswordManagedConnectionFactory managedConnectionFactory) throws ResourceAdapterInternalException {
-        assert managedConnectionFactory != null;
+	public boolean matches(Subject subject, ConnectionRequestInfo connectionRequestInfo,
+			UserPasswordManagedConnectionFactory managedConnectionFactory) throws ResourceAdapterInternalException {
+		assert managedConnectionFactory != null;
 
-        if (connectionRequestInfo != null && !(connectionRequestInfo instanceof UserPasswordHandleFactoryRequestInfo)) {
-            throw new ResourceAdapterInternalException("ConnectionRequestInfo must be a UserPasswordHandleFactoryRequestInfo, not a " + connectionRequestInfo.getClass().getName());
-        }
-        if (subject != null) {
-            Set<PasswordCredential> credentials = subject.getPrivateCredentials(PasswordCredential.class);
-            for (PasswordCredential passwordCredential : credentials) {
-                if (managedConnectionFactory.equals(passwordCredential.getManagedConnectionFactory())) {
-                    return (userName == null ? passwordCredential.getUserName() == null : userName.equals(passwordCredential.getUserName())
-                            && (password == null ? passwordCredential.getPassword() == null : Arrays.equals(password.toCharArray(), passwordCredential.getPassword())));
-                }
-            }
-            throw new ResourceAdapterInternalException("No credential found for this ManagedConnectionFactory: " + managedConnectionFactory);
-        }
-        if (connectionRequestInfo != null
-                && ((UserPasswordHandleFactoryRequestInfo) connectionRequestInfo).getUser() != null) {
-            return (userName.equals(((UserPasswordHandleFactoryRequestInfo) connectionRequestInfo).getUser()))
-                    && (password == null ? ((UserPasswordHandleFactoryRequestInfo) connectionRequestInfo).getPassword() == null : password.equals(((UserPasswordHandleFactoryRequestInfo) connectionRequestInfo).getPassword()));
-        }
-        return (userName == null ? managedConnectionFactory.getUserName() == null : userName.equals(managedConnectionFactory.getUserName())
-                && (password == null ? managedConnectionFactory.getPassword() == null : password.equals(managedConnectionFactory.getPassword())));
-    }
+		if (connectionRequestInfo != null && !(connectionRequestInfo instanceof UserPasswordHandleFactoryRequestInfo)) {
+			throw new ResourceAdapterInternalException(
+					"ConnectionRequestInfo must be a UserPasswordHandleFactoryRequestInfo, not a "
+							+ connectionRequestInfo.getClass().getName());
+		}
+		if (subject != null) {
+			Set<PasswordCredential> credentials = subject.getPrivateCredentials(PasswordCredential.class);
+			for (PasswordCredential passwordCredential : credentials) {
+				if (managedConnectionFactory.equals(passwordCredential.getManagedConnectionFactory())) {
+					return (userName == null ? passwordCredential.getUserName() == null
+							: userName.equals(passwordCredential.getUserName())
+									&& (password == null ? passwordCredential.getPassword() == null
+											: Arrays.equals(password.toCharArray(), passwordCredential.getPassword())));
+				}
+			}
+			throw new ResourceAdapterInternalException(
+					"No credential found for this ManagedConnectionFactory: " + managedConnectionFactory);
+		}
+		if (connectionRequestInfo != null
+				&& ((UserPasswordHandleFactoryRequestInfo<?,?>) connectionRequestInfo).getUser() != null) {
+			return (userName.equals(((UserPasswordHandleFactoryRequestInfo<?,?>) connectionRequestInfo).getUser()))
+					&& (password == null
+							? ((UserPasswordHandleFactoryRequestInfo<?,?>) connectionRequestInfo).getPassword() == null
+							: password.equals(
+									((UserPasswordHandleFactoryRequestInfo<?,?>) connectionRequestInfo).getPassword()));
+		}
+		return (userName == null ? managedConnectionFactory.getUserName() == null
+				: userName.equals(managedConnectionFactory.getUserName())
+						&& (password == null ? managedConnectionFactory.getPassword() == null
+								: password.equals(managedConnectionFactory.getPassword())));
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 }

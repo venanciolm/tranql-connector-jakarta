@@ -30,9 +30,9 @@ import org.tranql.connector.ExceptionSorter;
  */
 public class ConfigurableSQLStateExceptionSorter implements ExceptionSorter {
 
-    private final Collection allowed;
+	private final Collection<?> allowed;
 
-    public ConfigurableSQLStateExceptionSorter(Collection allowed) {
+    public ConfigurableSQLStateExceptionSorter(Collection<?> allowed) {
         this.allowed = allowed;
     }
 

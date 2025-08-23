@@ -19,10 +19,10 @@ package org.tranql.connector.jdbc;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.resource.ResourceException;
-import javax.resource.spi.ConnectionRequestInfo;
-import javax.resource.spi.ManagedConnection;
-import javax.resource.spi.ResourceAdapterInternalException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.ConnectionRequestInfo;
+import jakarta.resource.spi.ManagedConnection;
+import jakarta.resource.spi.ResourceAdapterInternalException;
 import javax.security.auth.Subject;
 import javax.sql.XAConnection;
 import javax.sql.XADataSource;
@@ -30,6 +30,7 @@ import javax.sql.XADataSource;
 import org.tranql.connector.CredentialExtractor;
 import org.tranql.connector.ExceptionSorter;
 
+@SuppressWarnings("serial")
 public abstract class AbstractPSCachedXADataSourceMCF<T extends XADataSource> extends AbstractXADataSourceMCF<T> {
 
     private int preparedStatementCacheSize = 0;
@@ -67,7 +68,4 @@ public abstract class AbstractPSCachedXADataSourceMCF<T extends XADataSource> ex
     public void setPreparedStatementCacheSize(Integer preparedStatementCacheSize) {
         this.preparedStatementCacheSize = preparedStatementCacheSize;
     }
-
-
-	
 }

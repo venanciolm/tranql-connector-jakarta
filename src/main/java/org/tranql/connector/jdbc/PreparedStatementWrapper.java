@@ -41,11 +41,11 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PreparedStatementWrapper implements PreparedStatement {
-	private final static org.apache.commons.logging.Log log = LogFactory.getLog(Log.class);
+	private final static Logger log = LoggerFactory.getLogger(TranqlDataSource.class);
 	
 	PreparedStatement ps = null;
 	ConnectionWrapper cw = null;;
@@ -85,11 +85,14 @@ public class PreparedStatementWrapper implements PreparedStatement {
                 statementClosed = true;
             }
 		} catch (SQLException e) {
-			log.error("TRANQL DB2 EmbeddedXA Driver. Error closing PreparedStatement in closeStatement.\n" +
-                "  Error message = "+e.getMessage()+"\n" +
-                "     Error code = "+Integer.toString(e.getErrorCode())+
-                "       SQLState = "+e.getSQLState());
-			e.printStackTrace();
+			String lf = System.lineSeparator();
+			log.error(//
+					"TRANQL DB2 EmbeddedXA Driver. Error closing PreparedStatement in closeStatement.{}" //
+							+ "   Error message = {}{}" //
+							+ "     Error code = {}" //
+							+ "       SQLState = {}", //
+					lf, e.getMessage(), lf, Integer.toString(e.getErrorCode()), e.getSQLState() //
+			);
 		}
 	}
 
@@ -582,4 +585,16 @@ public class PreparedStatementWrapper implements PreparedStatement {
         }
         return ps.isWrapperFor(aClass);
     }
+
+	// Adding!!
+	@Override
+	public void closeOnCompletion() throws SQLException {
+		ps.closeOnCompletion();
+
+	}
+
+	@Override
+	public boolean isCloseOnCompletion() throws SQLException {
+		return ps.isCloseOnCompletion();
+	}
 }

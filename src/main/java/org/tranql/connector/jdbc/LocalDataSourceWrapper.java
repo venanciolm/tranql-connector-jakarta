@@ -20,9 +20,7 @@
 
 package org.tranql.connector.jdbc;
 
-import javax.sql.ConnectionPoolDataSource;
 import javax.sql.DataSource;
-import org.tranql.connector.NoExceptionsAreFatalSorter;
 
 /**
  * @version $Rev:$ $Date:$

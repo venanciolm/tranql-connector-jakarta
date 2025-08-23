@@ -1079,4 +1079,46 @@ public class CallableStatementHandle<T extends CallableStatement> extends Prepar
             throw e;
         }
     }
+
+    // Adding!!!
+
+    @Override
+	public void closeOnCompletion() throws SQLException {
+        try {
+            s.closeOnCompletion();
+        } catch (SQLException e) {
+            c.connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public boolean isCloseOnCompletion() throws SQLException {
+        try {
+            return s.isCloseOnCompletion();
+        } catch (SQLException e) {
+            c.connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public <I> I getObject(int parameterIndex, Class<I> type) throws SQLException {
+        try {
+            return s.getObject(parameterIndex, type);
+        } catch (SQLException e) {
+            c.connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public <I> I getObject(String parameterName, Class<I> type) throws SQLException {
+        try {
+            return s.getObject(parameterName, type);
+        } catch (SQLException e) {
+            c.connectionError(e);
+            throw e;
+        }
+	}
 }

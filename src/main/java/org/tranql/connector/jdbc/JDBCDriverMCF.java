@@ -26,14 +26,14 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.resource.NotSupportedException;
-import javax.resource.ResourceException;
-import javax.resource.spi.ConnectionManager;
-import javax.resource.spi.ConnectionRequestInfo;
-import javax.resource.spi.InvalidPropertyException;
-import javax.resource.spi.ManagedConnection;
-import javax.resource.spi.ResourceAdapterInternalException;
-import javax.resource.spi.ResourceAllocationException;
+import jakarta.resource.NotSupportedException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.ConnectionManager;
+import jakarta.resource.spi.ConnectionRequestInfo;
+import jakarta.resource.spi.InvalidPropertyException;
+import jakarta.resource.spi.ManagedConnection;
+import jakarta.resource.spi.ResourceAdapterInternalException;
+import jakarta.resource.spi.ResourceAllocationException;
 import javax.security.auth.Subject;
 import org.tranql.connector.CredentialExtractor;
 import org.tranql.connector.ExceptionSorter;
@@ -106,8 +106,10 @@ public class JDBCDriverMCF implements UserPasswordManagedConnectionFactory, Auto
         }
     }
 
-    public ManagedConnection matchManagedConnections(Set set, Subject subject, ConnectionRequestInfo connectionRequestInfo) throws ResourceException {
-        for (Iterator<Object> i = set.iterator(); i.hasNext();) {
+    @SuppressWarnings("rawtypes")
+	public ManagedConnection matchManagedConnections(Set set, Subject subject, ConnectionRequestInfo connectionRequestInfo) throws ResourceException {
+        for (@SuppressWarnings("unchecked")
+		Iterator<Object> i = set.iterator(); i.hasNext();) {
             Object o = i.next();
             if (o instanceof ManagedConnectionHandle) {
                 ManagedConnectionHandle mc = (ManagedConnectionHandle) o;
@@ -143,12 +145,14 @@ public class JDBCDriverMCF implements UserPasswordManagedConnectionFactory, Auto
      *
      * @throws InvalidPropertyException if the class name is null or empty
      */
-    public void setDriver(String driver) throws InvalidPropertyException {
+	@SuppressWarnings("deprecation")
+	public void setDriver(String driver) throws InvalidPropertyException {
         if (driver == null || driver.length() == 0) {
             throw new InvalidPropertyException("Empty driver class name");
         }
         try {
-            Class<Driver> driverClass = (Class<Driver>) loadClass(driver);
+            @SuppressWarnings("unchecked")
+			Class<Driver> driverClass = (Class<Driver>) loadClass(driver);
             this.driver = driverClass.newInstance();
         } catch (ClassNotFoundException e) {
             throw new InvalidPropertyException("Unable to load driver class: " + driver, e);
@@ -264,12 +268,14 @@ public class JDBCDriverMCF implements UserPasswordManagedConnectionFactory, Auto
      *
      * @throws InvalidPropertyException if the class name is null or empty
      */
-    public void setExceptionSorterClass(String className) throws InvalidPropertyException {
+    @SuppressWarnings("deprecation")
+	public void setExceptionSorterClass(String className) throws InvalidPropertyException {
         if (className == null || className.length() == 0) {
             throw new InvalidPropertyException("Empty class name");
         }
         try {
-            Class<ExceptionSorter> clazz = (Class<ExceptionSorter>) loadClass(className);
+            @SuppressWarnings("unchecked")
+			Class<ExceptionSorter> clazz = (Class<ExceptionSorter>) loadClass(className);
             exceptionSorter = clazz.newInstance();
         } catch (ClassNotFoundException e) {
             throw new InvalidPropertyException("Unable to load class: " + className, e);
@@ -321,7 +327,8 @@ public class JDBCDriverMCF implements UserPasswordManagedConnectionFactory, Auto
         return Class.forName(name);
     }
 
-    private ClassLoader getContextClassLoader() {
+	@SuppressWarnings({ "removal"})
+	private ClassLoader getContextClassLoader() {
         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
             public ClassLoader run() {
                 try {

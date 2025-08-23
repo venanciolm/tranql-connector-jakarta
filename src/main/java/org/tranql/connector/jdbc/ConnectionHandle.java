@@ -33,12 +33,13 @@ import java.sql.Statement;
 import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
-import javax.resource.ResourceException;
-import javax.resource.spi.ConnectionRequestInfo;
-import javax.resource.spi.LazyAssociatableConnectionManager;
-import javax.resource.spi.LocalTransaction;
-import javax.resource.spi.ManagedConnectionFactory;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.ConnectionRequestInfo;
+import jakarta.resource.spi.LazyAssociatableConnectionManager;
+import jakarta.resource.spi.LocalTransaction;
+import jakarta.resource.spi.ManagedConnectionFactory;
 
 import org.tranql.connector.DissociatableConnectionHandle;
 import org.tranql.connector.ManagedConnectionHandle;
@@ -672,4 +673,61 @@ public class ConnectionHandle implements Connection, DissociatableConnectionHand
             throw e;
         }
     }
+    
+    // Adding!!!
+
+	@Override
+	public void setSchema(String schema) throws SQLException {
+        ManagedConnectionHandle<Connection, ConnectionHandle> mc = getManagedConnection();
+        try {
+             mc.getPhysicalConnection().setSchema(schema);
+        } catch (SQLException e) {
+            connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public String getSchema() throws SQLException {
+        ManagedConnectionHandle<Connection, ConnectionHandle> mc = getManagedConnection();
+        try {
+            return mc.getPhysicalConnection().getSchema();
+        } catch (SQLException e) {
+            connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public void abort(Executor executor) throws SQLException {
+        ManagedConnectionHandle<Connection, ConnectionHandle> mc = getManagedConnection();
+        try {
+            mc.getPhysicalConnection().abort(executor);
+        } catch (SQLException e) {
+            connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+        ManagedConnectionHandle<Connection, ConnectionHandle> mc = getManagedConnection();
+        try {
+            mc.getPhysicalConnection().setNetworkTimeout(executor, milliseconds);
+        } catch (SQLException e) {
+            connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public int getNetworkTimeout() throws SQLException {
+        ManagedConnectionHandle<Connection, ConnectionHandle> mc = getManagedConnection();
+        try {
+            return mc.getPhysicalConnection().getNetworkTimeout();
+        } catch (SQLException e) {
+            connectionError(e);
+            throw e;
+        }
+	}
 }

@@ -1603,4 +1603,27 @@ public class DatabaseMetaDataHandle implements DatabaseMetaData {
             throw e;
         }
     }
+    
+    // Adding!!
+
+	@Override
+	public ResultSet getPseudoColumns(String catalog, String schemaPattern, String tableNamePattern,
+			String columnNamePattern) throws SQLException {
+        try {
+            return dbmd.getPseudoColumns(catalog, schemaPattern, tableNamePattern, columnNamePattern);
+        } catch (SQLException e) {
+            c.connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public boolean generatedKeyAlwaysReturned() throws SQLException {
+        try {
+            return dbmd.generatedKeyAlwaysReturned();
+        } catch (SQLException e) {
+            c.connectionError(e);
+            throw e;
+        }
+	}
 }

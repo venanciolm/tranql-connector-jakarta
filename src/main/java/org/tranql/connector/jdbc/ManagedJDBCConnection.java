@@ -19,21 +19,22 @@ package org.tranql.connector.jdbc;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.resource.NotSupportedException;
-import javax.resource.ResourceException;
-import javax.resource.spi.ConnectionRequestInfo;
-import javax.resource.spi.LocalTransaction;
-import javax.resource.spi.LocalTransactionException;
-import javax.resource.spi.ManagedConnectionFactory;
-import javax.resource.spi.ManagedConnectionMetaData;
-import javax.resource.spi.ResourceAdapterInternalException;
 import javax.security.auth.Subject;
 import javax.transaction.xa.XAResource;
 
 import org.tranql.connector.AbstractManagedConnection;
 import org.tranql.connector.CredentialExtractor;
-import org.tranql.connector.UserPasswordManagedConnectionFactory;
 import org.tranql.connector.ExceptionSorter;
+import org.tranql.connector.UserPasswordManagedConnectionFactory;
+
+import jakarta.resource.NotSupportedException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.ConnectionRequestInfo;
+import jakarta.resource.spi.LocalTransaction;
+import jakarta.resource.spi.LocalTransactionException;
+import jakarta.resource.spi.ManagedConnectionFactory;
+import jakarta.resource.spi.ManagedConnectionMetaData;
+import jakarta.resource.spi.ResourceAdapterInternalException;
 
 /**
  * Implementation of ManagedConnection that manages a physical JDBC connection.
@@ -42,7 +43,9 @@ import org.tranql.connector.ExceptionSorter;
  */
 class ManagedJDBCConnection extends AbstractManagedConnection<Connection, ConnectionHandle> {
     private final CredentialExtractor credentialExtractor;
-    private final AbstractManagedConnection.LocalTransactionImpl localTx;
+    @SuppressWarnings("rawtypes")
+	private final AbstractManagedConnection.LocalTransactionImpl localTx;
+    @SuppressWarnings("rawtypes")
     private final AbstractManagedConnection.LocalTransactionImpl localClientTx;
     private final boolean commitBeforeAutoCommit;
 
@@ -58,8 +61,12 @@ class ManagedJDBCConnection extends AbstractManagedConnection<Connection, Connec
     ManagedJDBCConnection(UserPasswordManagedConnectionFactory mcf, Connection physicalConnection, CredentialExtractor credentialExtractor, ExceptionSorter exceptionSorter, boolean commitBeforeAutoCommit) {
         super(mcf, physicalConnection, exceptionSorter);
         this.credentialExtractor = credentialExtractor;
-        localTx = new AbstractManagedConnection.LocalTransactionImpl(true);
-        localClientTx = new AbstractManagedConnection.LocalTransactionImpl(false);
+        @SuppressWarnings("rawtypes")
+		AbstractManagedConnection.LocalTransactionImpl localTxRaw = new AbstractManagedConnection.LocalTransactionImpl(true);
+        @SuppressWarnings("rawtypes")
+        AbstractManagedConnection.LocalTransactionImpl localClientTxRaw = new AbstractManagedConnection.LocalTransactionImpl(false);
+        localTx = localTxRaw;
+        localClientTx = localClientTxRaw;
         this.commitBeforeAutoCommit = commitBeforeAutoCommit;
     }
 

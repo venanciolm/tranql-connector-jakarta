@@ -17,7 +17,7 @@
 
 package org.tranql.connector;
 
-import javax.resource.spi.ManagedConnectionFactory;
+import jakarta.resource.spi.ManagedConnectionFactory;
 
 /**
  * A specialization of {@link ManagedConnectionFactory} that provides access to a defined

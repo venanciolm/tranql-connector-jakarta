@@ -16,45 +16,47 @@
  */
 package org.tranql.connector;
 
-
 /**
- * @version $Revision: 801 $ $Date: 2010-11-02 17:01:34 -0700 (Tue, 02 Nov 2010) $
+ * @version $Revision: 801 $ $Date: 2010-11-02 17:01:34 -0700 (Tue, 02 Nov 2010)
+ *          $
  */
 public class UserPasswordHandleFactoryRequestInfo<T, U> extends ConnectionHandleFactoryRequestInfo<T, U> {
-    private final String user;
-    private final String password;
+	private final String user;
+	private final String password;
 
-    public UserPasswordHandleFactoryRequestInfo(DissociatableConnectionHandleFactory<T, U> connectionHandleFactory, String user, String password) {
-        super(connectionHandleFactory);
-        this.user = user;
-        this.password = password;
-    }
+	public UserPasswordHandleFactoryRequestInfo(DissociatableConnectionHandleFactory<T, U> connectionHandleFactory,
+			String user, String password) {
+		super(connectionHandleFactory);
+		this.user = user;
+		this.password = password;
+	}
 
-    public String getUser() {
-        return user;
-    }
+	public String getUser() {
+		return user;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof UserPasswordHandleFactoryRequestInfo) {
-            UserPasswordHandleFactoryRequestInfo other = (UserPasswordHandleFactoryRequestInfo) obj;
-            return (user == null ? other.user == null : user.equals(other.user)) &&
-                    (password == null ? other.password == null : password.equals(other.password));
-        }
-        return false;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof UserPasswordHandleFactoryRequestInfo) {
+			@SuppressWarnings("unchecked")
+			UserPasswordHandleFactoryRequestInfo<T, U> other = (UserPasswordHandleFactoryRequestInfo<T, U>) obj;
+			return (user == null ? other.user == null : user.equals(other.user))
+					&& (password == null ? other.password == null : password.equals(other.password));
+		}
+		return false;
+	}
 
-    @Override
-    public int hashCode() {
-        return (user == null ? 0 : user.hashCode()) ^ (password == null ? 0 : password.hashCode());
-    }
+	@Override
+	public int hashCode() {
+		return (user == null ? 0 : user.hashCode()) ^ (password == null ? 0 : password.hashCode());
+	}
 
-    @Override
-    public String toString() {
-        return "DataSourceRequestInfo[" + user + "]";
-    }
+	@Override
+	public String toString() {
+		return "DataSourceRequestInfo[" + user + "]";
+	}
 }

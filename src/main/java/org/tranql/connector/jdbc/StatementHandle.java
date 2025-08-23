@@ -399,7 +399,8 @@ public class StatementHandle<T extends Statement> implements Statement {
         }
     }
 
-    @Override
+    @SuppressWarnings("hiding")
+	@Override
     public <T> T unwrap(Class<T> tClass) throws SQLException {
         if (tClass.isInstance(this)) {
             return tClass.cast(this);
@@ -424,4 +425,26 @@ public class StatementHandle<T extends Statement> implements Statement {
             throw e;
         }
     }
+    
+    // Adding!!!
+
+	@Override
+	public void closeOnCompletion() throws SQLException {
+        try {
+            s.closeOnCompletion();
+        } catch (SQLException e) {
+            c.connectionError(e);
+            throw e;
+        }
+	}
+
+	@Override
+	public boolean isCloseOnCompletion() throws SQLException {
+        try {
+            return s.isCloseOnCompletion();
+        } catch (SQLException e) {
+            c.connectionError(e);
+            throw e;
+        }
+	}
 }
