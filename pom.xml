@@ -5,7 +5,10 @@
 	<groupId>com.farmafene.j2ee</groupId>
 	<artifactId>tranql-connector-jakarta</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
-	<name>${project.groupId}:${project.artifactId}:${project.version}</name>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Porting of org.tranql:tranql-connector from javax.* to
+		jakarta.*</description>
+	<url>https://github.com/venanciolm/tranql-connector-jakarta</url>
 	<properties>
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,6 +40,20 @@
 		<connection><![CDATA[scm:git:https://github.com/venanciolm/tranql-connector-jakarta.git]]></connection>
 		<developerConnection><![CDATA[scm:git:https://github.com/venanciolm/tranql-connector-jakarta.git]]></developerConnection>
 	</scm>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Venancio López Martínez</name>
+			<email>venanciolm -at- gmail.com</email>
+			<organization>farmafene</organization>
+			<organizationUrl>http://farmafene.com</organizationUrl>
+		</developer>
+	</developers>
 	<dependencies>
 		<dependency>
 			<groupId>jakarta.transaction</groupId>
