@@ -44,7 +44,7 @@
 	<distributionManagement>
 		<repository>
 			<id>CENTRAL.GOOGLE.ID</id>
-			<url>https://repo1.maven.org/maven2</url>
+			<url><![CDATA[https://repo1.maven.org/maven2]]></url>
 		</repository>
 		<snapshotRepository>
 			<id>CENTRAL.GOOGLE.ID</id>
@@ -273,6 +273,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
+				<!--<server>-->
+				<!--	<id>gpg.passphrase</id>-->
+				<!--	<passphrase> ... Clara o cifrada ...</passphrase>-->
+				<!--</server>-->
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
