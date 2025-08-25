@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.farmafene.j2ee</groupId>
 	<artifactId>tranql-connector-jakarta</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
+	<version>2.0.1-SNAPSHOT</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description><![CDATA[Porting of org.tranql:tranql-connector from javax.* to jakarta.*]]></description>
 	<url><![CDATA[https://github.com/venanciolm/tranql-connector-jakarta]]></url>
@@ -22,6 +22,8 @@
 		<maven-source-plugin>2.4</maven-source-plugin>
 		<maven-release-plugin>2.5.3</maven-release-plugin>
 		<maven-deploy-plugin>2.8.2</maven-deploy-plugin>
+		<central-publishing-maven-plugin>0.8.0</central-publishing-maven-plugin>
+		<maven-gpg-plugin>3.2.8</maven-gpg-plugin>
 		<!-- -->
 		<!-- -->
 		<!-- Versions -->
@@ -41,8 +43,8 @@
 	</scm>
 	<distributionManagement>
 		<repository>
-			<id>PC_LOCAL.ID.RELEASES</id>
-			<url>file:///C:/data/_standAlone/releases</url>
+			<id>central-portal-releases</id>
+			<url>https://repo1.maven.org/maven2</url>
 		</repository>
 		<snapshotRepository>
 			<id>central-portal-snapshots</id>
@@ -161,6 +163,16 @@
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>${maven-javadoc-plugin}</version>
 				</plugin>
+				<plugin>
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<version>${central-publishing-maven-plugin}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>${maven-gpg-plugin}</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -183,6 +195,14 @@
 					</toolchains>
 				</configuration>
 			</plugin>
+			<!--			<plugin>-->
+			<!--				<groupId>org.apache.maven.plugins</groupId>-->
+			<!--				<artifactId>maven-install-plugin</artifactId>-->
+			<!--				<version>3.1.4</version>-->
+			<!--				<configuration>-->
+			<!--					<createChecksum>true</createChecksum>-->
+			<!--				</configuration>-->
+			<!--			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-plugin</artifactId>
@@ -248,6 +268,30 @@
 					<preparationGoals>install</preparationGoals>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<arguments>-DskipTests</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<autoPublish>true</autoPublish>
+					<waitUntil>uploaded</waitUntil>
+					<skipPublishing>false</skipPublishing>
+					<publishingServerId>CENTRAL.GOOGLE.ID</publishingServerId>
 				</configuration>
 			</plugin>
 		</plugins>
