@@ -293,6 +293,7 @@
 					<autoPublish>true</autoPublish>
 					<waitUntil>uploaded</waitUntil>
 					<skipPublishing>false</skipPublishing>
+					<deploymentName>${project.artifactId}@${project.version}</deploymentName>
 					<publishingServerId>CENTRAL.GOOGLE.ID</publishingServerId>
 				</configuration>
 			</plugin>
