@@ -43,11 +43,11 @@
 	</scm>
 	<distributionManagement>
 		<repository>
-			<id>central-portal-releases</id>
+			<id>CENTRAL.GOOGLE.ID</id>
 			<url>https://repo1.maven.org/maven2</url>
 		</repository>
 		<snapshotRepository>
-			<id>central-portal-snapshots</id>
+			<id>CENTRAL.GOOGLE.ID</id>
 			<url><![CDATA[https://central.sonatype.com/repository/maven-snapshots/]]></url>
 		</snapshotRepository>
 	</distributionManagement>
