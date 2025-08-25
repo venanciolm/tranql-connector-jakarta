@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.farmafene.j2ee</groupId>
 	<artifactId>tranql-connector-jakarta</artifactId>
-	<version>2.0.1</version>
+	<version>2.0.2-SNAPSHOT</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description><![CDATA[Porting of org.tranql:tranql-connector from javax.* to jakarta.*]]></description>
 	<url><![CDATA[https://github.com/venanciolm/tranql-connector-jakarta]]></url>
@@ -34,7 +34,7 @@
 		<log4j.VERSION>2.24.3</log4j.VERSION>
 	</properties>
 	<scm>
-		<tag>2.0.1</tag>
+		<tag>HEAD</tag>
 		<url><![CDATA[https://github.com/venanciolm/tranql-connector-jakarta]]></url>
 		<connection><![CDATA[scm:git:https://github.com/venanciolm/tranql-connector-jakarta.git]]></connection>
 		<developerConnection><![CDATA[scm:git:https://github.com/venanciolm/tranql-connector-jakarta.git]]></developerConnection>
