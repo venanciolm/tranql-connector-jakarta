@@ -195,14 +195,6 @@
 					</toolchains>
 				</configuration>
 			</plugin>
-			<!--			<plugin>-->
-			<!--				<groupId>org.apache.maven.plugins</groupId>-->
-			<!--				<artifactId>maven-install-plugin</artifactId>-->
-			<!--				<version>3.1.4</version>-->
-			<!--				<configuration>-->
-			<!--					<createChecksum>true</createChecksum>-->
-			<!--				</configuration>-->
-			<!--			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-plugin</artifactId>
@@ -271,23 +263,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<!--<server>-->
-				<!--	<id>gpg.passphrase</id>-->
-				<!--	<passphrase> ... Clara o cifrada ...</passphrase>-->
-				<!--</server>-->
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.sonatype.central</groupId>
 				<artifactId>central-publishing-maven-plugin</artifactId>
 				<extensions>true</extensions>
@@ -301,33 +276,40 @@
 			</plugin>
 		</plugins>
 	</build>
-<!--	<profiles>-->
-<!--		<profile>-->
-<!--			https://www.sonatype.com/blog/2010/01/how-to-generate-pgp-signatures-with-maven -->
-<!--			<id>release-sign-artifacts</id>-->
-<!--			<activation>-->
-<!--				<property>-->
-<!--					<name>performRelease</name>-->
-<!--					<value>true</value>-->
-<!--				</property>-->
-<!--			</activation>-->
-<!--			<build>-->
-<!--				<plugins>-->
-<!--					<plugin>-->
-<!--						<groupId>org.apache.maven.plugins</groupId>-->
-<!--						<artifactId>maven-gpg-plugin</artifactId>-->
-<!--						<executions>-->
-<!--							<execution>-->
-<!--								<id>sign-artifacts</id>-->
-<!--								<phase>verify</phase>-->
-<!--								<goals>-->
-<!--									<goal>sign</goal>-->
-<!--								</goals>-->
-<!--							</execution>-->
-<!--						</executions>-->
-<!--					</plugin>-->
-<!--				</plugins>-->
-<!--			</build>-->
-<!--		</profile>-->
-<!--	</profiles>-->
+	<profiles>
+		<profile>
+			<!-- @See
+			https://www.sonatype.com/blog/2010/01/how-to-generate-pgp-signatures-with-maven
+			 -->
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<!--<server>-->
+						<!--	<id>gpg.passphrase</id>-->
+						<!--	<passphrase> ... Clara o cifrada
+						...</passphrase>-->
+						<!--</server>-->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
